@@ -2,7 +2,7 @@
 
 A self-running dispatch assistant for a regional trucking carrier. It reads the office's dispatch board (an Excel workbook with one tab per day), the trucks' GPS and the dispatch mailbox, and publishes pages that say what needs doing and what it would do. It only suggests: it never writes to the board, never books a load, never sends an email and never messages a driver.
 
-This repository is a standalone demo. The desk was built for a working carrier; here it runs against a fictional one, "Sample Freight", with generated data. Every driver, customer, load number, trailer number, VIN and plate in the demo is invented. Only the city names are real places.
+This repository is a standalone demo. The desk was built for a working carrier; here it runs against a fictional one, "Sample Freight", with generated data. Every driver, customer, load number, trailer number, VIN and plate in the demo is invented. Only the city names are real places. Any resemblance of an invented name to a real person or business is coincidental.
 
 ## Run it
 
