@@ -37,7 +37,7 @@ py -m pytest tests -q
 2. `py run_demo.py` rebuilds that sample for the current time, runs the whole desk against it and writes the pages to `./out/DESK/`. Open `./out/DESK/INDEX.html`. Add `--keep` to reuse the sample already there.
 3. `py -m pytest tests -q` runs 33 tests: 32 on the rules, 1 that the demo run produces its pages.
 
-No network, no keys and no accounts are needed. Requirements: Python 3.10 or later, `openpyxl`, `numpy`, `scipy`, `pytest`. On Linux or macOS use `python3` in place of `py`.
+No network, no keys and no accounts are needed. Requirements: Python 3.12 or later, `openpyxl`, `numpy`, `scipy`, `pytest`. On Linux or macOS use `python3` in place of `py`.
 
 ## What this demo shows
 
