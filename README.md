@@ -1,5 +1,25 @@
 # Dispatch Desk
 
+**An AI-era ops tool built inside a working trucking office, then rebuilt here on fictional data so anyone can run it in one command.**
+
+**[Open the live demo →](https://jarvisss007.github.io/dispatch-desk/)** · rebuilt every weekday morning from fresh fictional data · [![tests](https://github.com/jarvisss007/dispatch-desk/actions/workflows/tests.yml/badge.svg)](https://github.com/jarvisss007/dispatch-desk/actions/workflows/tests.yml)
+
+![The front page: what needs doing now, loads on the road, trucks on site, trailers at customers](docs/img/INDEX.png)
+
+## Why it is built this way
+
+The office ran on one Excel workbook, a GPS portal and a shared inbox. The desk had to fit into that as it was, not replace it. That set the design:
+
+- **Shadow mode, read-only by construction.** The desk copies the board aside before opening it (`dispatch_desk/source.py`), so it can never write the dispatchers' file or be locked out by an open Excel session. It sends nothing and books nothing. A dispatcher decides; the desk only says what it would do.
+- **It keeps score on itself.** The first suggestion made for each load is logged, then checked against what the office actually typed: *taken*, *second choice*, *someone else*, *still open*, *gone* (`dispatch_desk/score.py`). A suggestion engine nobody measures is a guess.
+- **It refuses to judge on stale data.** A GPS position more than 20 minutes old is shown as "last seen", never turned into an on-time verdict. Input age is the source file's last save, not the copy time.
+- **Global matching, not first-come.** Outbound trucks are paired with return loads across the whole fleet at once with the Hungarian algorithm (`scipy.optimize.linear_sum_assignment`), so one good pairing does not block a better one.
+- **One settings file per carrier.** Everything specific to a carrier lives in `dispatch_desk/settings.py` or a JSON file; the GPS and mailbox clients sit behind small stand-in modules with the same shapes.
+
+![The day plan: a numbered worklist with the ways out of each problem](docs/img/DAY_PLAN.png)
+
+## What it does
+
 A self-running dispatch assistant for a regional trucking carrier. It reads the office's dispatch board (an Excel workbook with one tab per day), the trucks' GPS and the dispatch mailbox, and publishes pages that say what needs doing and what it would do. It only suggests: it never writes to the board, never books a load, never sends an email and never messages a driver.
 
 This repository is a standalone demo. The desk was built for a working carrier; here it runs against a fictional one, "Sample Freight", with generated data. Every driver, customer, load number, trailer number, VIN and plate in the demo is invented. Only the city names are real places. Any resemblance of an invented name to a real person or business is coincidental.

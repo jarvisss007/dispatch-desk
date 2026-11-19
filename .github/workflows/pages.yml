@@ -1,0 +1,41 @@
+name: live demo
+# Rebuilds the fictional carrier's pages and publishes them to GitHub Pages.
+# Runs on every push to main and each weekday morning so "today" stays today.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 14 * * 1-5"   # 06:00 PT
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TZ: America/Los_Angeles
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python run_demo.py
+      - run: cp out/DESK/INDEX.html out/DESK/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out/DESK
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
